@@ -16,7 +16,7 @@ then
     
     # download phantom.js
     PHANTOMJS_URL=${PHANTOMJS_FILES}/${PHANTOMJS_DIR}.zip
-    PHANTOMJS_ZIP=${EXTERNAL_DIR}/${PHANTOMJS-DIR}.zip
+    PHANTOMJS_ZIP=${EXTERNAL_DIR}/${PHANTOMJS_DIR}.zip
     curl -L $PHANTOMJS_URL > ${PHANTOMJS_ZIP}
     unzip -qd ${EXTERNAL_DIR} ${PHANTOMJS_ZIP}
     rm ${PHANTOMJS_ZIP}
@@ -29,8 +29,26 @@ then
     echo "${PHANTOMJS_DIR} already installed"
   fi
 else
-  ARCH=`uname m`
-  
+  ARCH=`uname -m`
+  PHANTOMJS_DIR=phantomjs-${PHANTOMJS_VERSION}-linux-${ARCH}
+  if ! test -d ${EXTERNAL_DIR}/${PHANTOMJS_DIR} ; then
+    
+    # download phantom.js
+    PHANTOMJS_URL=${PHANTOMJS_FILES}/${PHANTOMJS_DIR}.tar.bz2
+    PHANTOMJS_BZ2=${EXTERNAL_DIR}/${PHANTOMJS_DIR}.tar.bz2
+    wget ${PHANTOMJS_URL} -O ${PHANTOMJS_BZ2}
+    
+    tar --bzip2 -C ${EXTERNAL_DIR} -xf ${PHANTOMJS_BZ2}   
+
+    rm ${PHANTOMJS_BZ2}
+    
+    # create an alias to the binary
+    ln -fs ${EXTERNAL_DIR}/${PHANTOMJS_DIR}/bin/phantomjs \
+           ${EXTERNAL_DIR}/phantomjs-${PHANTOMJS_VERSION}
+    
+  else
+    echo "${PHANTOMJS_DIR} already installed"
+  fi
 fi
 
 
