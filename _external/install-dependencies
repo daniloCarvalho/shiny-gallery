@@ -1,5 +1,39 @@
 #!/bin/bash
 
+# path to external dir is the directory of this script
+EXTERNAL_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
+# determine platform
+PLATFORM=`uname`
+
+# install phantom.js
+PHANTOMJS_VERSION=1.9.2
+PHANTOMJS_FILES=https://phantomjs.googlecode.com/files
+if [ "$PLATFORM" == "Darwin" ]
+then
+  PHANTOMJS_DIR=phantomjs-${PHANTOMJS_VERSION}-macosx
+  if ! test -d ${EXTERNAL_DIR}/${PHANTOMJS_DIR} ; then
+    
+    # download phantom.js
+    PHANTOMJS_URL=${PHANTOMJS_FILES}/${PHANTOMJS_DIR}.zip
+    PHANTOMJS_ZIP=${EXTERNAL_DIR}/${PHANTOMJS-DIR}.zip
+    curl -L $PHANTOMJS_URL > ${PHANTOMJS_ZIP}
+    unzip -qd ${EXTERNAL_DIR} ${PHANTOMJS_ZIP}
+    rm ${PHANTOMJS_ZIP}
+    
+    # create an alias to the binary
+    ln -fs ${EXTERNAL_DIR}/${PHANTOMJS_DIR}/bin/phantomjs \
+           ${EXTERNAL_DIR}/phantomjs-${PHANTOMJS_VERSION}
+    
+  else
+    echo "${PHANTOMJS_DIR} already installed"
+  fi
+else
+  ARCH=`uname m`
+  
+fi
+
+
+# install jekyll
 gem install jekyll
 
