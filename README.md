@@ -10,7 +10,7 @@ To run the Shiny Gallery locally you need to be on Linux or Mac OS X. You also n
 Once you've installed RVM you should execute the following from the root directory of the repository: 
 
 ```bash
-$ _scripts/install-dependencies
+$ _external/install-dependencies
 ```
 
 This script installs both Jekyll and phantom.js (used for capturing thumbnails of Shiny applications).
