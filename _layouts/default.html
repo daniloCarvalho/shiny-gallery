@@ -45,11 +45,9 @@
             <li class="divider"></li>
             <li><a href="{{ site.baseurl }}/recent/">Recently Added</a></li>
             <li class="divider"></li>
-            <li class="nav-header">Categories</li>
-            <li><a href="{{ site.baseurl }}/getting_started/">Getting Started</a></li>
-            <li><a href="{{ site.baseurl }}/reactivity/">Reactivity</a></li>
-            <li><a href="{{ site.baseurl }}/layout/">Application Layout</a></li>
-            <li><a href="{{ site.baseurl }}/ggvis/">Graphics with ggvis</a></li>
+            {% for tag in site.tags %}
+            <li><a href="{{ site.baseurl }}/tags/{{tag}}.html">{{tag}}</a></li>
+            {% endfor %}
           </ul>
         </li>
       </ul>
