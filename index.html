@@ -4,11 +4,8 @@ layout: default
 
 <div class="container-fluid">
   
-<ul>
-{% for post in site.posts %}
-    <li><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></li>
-{% endfor %}
-</ul> 
+{% assign app_list = site.posts %}  
+{% include app_list.html %}  
  
 </div>
 
