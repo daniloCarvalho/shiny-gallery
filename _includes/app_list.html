@@ -1,7 +1,6 @@
 
-<h3>{{ app_list_name }}</h3>
 <ul>
-  {% for app_item in app_list %}
+  {% for app_item in app_list limit: limit %}
   {% include app_item.html %}
   {% endfor %}
 </ul>

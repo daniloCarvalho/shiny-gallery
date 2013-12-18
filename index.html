@@ -4,9 +4,17 @@ layout: default
 
 <div class="container-fluid">
 
-{% assign app_list_name = 'Recently Added' %}  
-{% assign app_list = site.posts %}  
+<h3>Featured Apps</h3>
+
+{% assign app_list = site.tags['featured'] %} 
+{% assign limit = 5 %} 
 {% include app_list.html %}  
+ 
+<h3>Recently Added</h3> 
+ 
+{% assign app_list = site.posts  %}  
+{% assign limit = 5 %} 
+{% include app_list.html %}   
  
 </div>
 
