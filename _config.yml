@@ -1,9 +1,6 @@
 name: Shiny Gallery
-markdown: redcarpet
-pygments: true
-
-# recommendation on handling github pages urls: 
-# http://jekyllrb.com/docs/github-pages/#project_page_url_structure
+permalink: /apps/:title.html
 baseurl: /shiny-gallery
+
 
 

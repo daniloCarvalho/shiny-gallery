@@ -57,8 +57,8 @@
         <input type="text" class="search-query" placeholder="Search">
       </form>
       
-      {% if page.get_code %}
-      <a class="btn btn-primary pull-right" href="https://github.com/rstudio/shiny" target="_blank"><i class="fa fa-github"></i>&nbsp;Get the Code</a>
+      {% if page.source_url %}
+      <a class="btn btn-primary pull-right" href="{{ page.source_url}}"><i class="fa fa-github"></i>&nbsp;Get the Code</a>
       {% endif %}
     </div>
   </div>
