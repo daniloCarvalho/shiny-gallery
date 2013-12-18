@@ -2,12 +2,14 @@
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
   <meta charset="utf-8">
-  <title>Shiny Gallery</title>
+  <title>{{ page.title }}</title>
    
   <meta name="description" content="">
   <meta name="author" content="">
 
   <link href="{{ site.baseurl }}/external/bootstrap/themes/cerulean/bootstrap.min.css" rel="stylesheet">
+  <link href="{{ site.baseurl }}/css/main.css" rel="stylesheet">
+  
   <link href="{{ site.baseurl }}/external/font-awesome/css/font-awesome.min.css" rel="stylesheet">
 
   <style type="text/css">
@@ -28,19 +30,40 @@
 <body>
 
   <div class="navbar navbar-inverse navbar-fixed-top">
-    <div class="navbar-inner">
-      <div class="container">
-        <a class="brand" href="#">Shiny Gallery</a>
-        <ul class="nav">
-          <li class="active"><a href="{{ site.baseurl }}">Home</a></li>
-          <li><a href="{{ site.baseurl }}/apps.html">Apps</a></li>
-        </ul>
-        <form class="navbar-search pull-left">
-          <input type="text" class="search-query" placeholder="Search">
-        </form>
-      </div>
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="brand" href="{{ site.baseurl }}/">Shiny Gallery</a>
+      <ul class="nav">
+        <li class="active"><a href="{{ site.baseurl }}/">Home</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            Browse
+            <b class="caret"></b>
+          </a>
+          <ul class="dropdown-menu fa-ul">
+            <li><a href="{{ site.baseurl }}/featured/">Featured Apps</a></li>
+            <li class="divider"></li>
+            <li><a href="{{ site.baseurl }}/recent/">Recently Added</a></li>
+            <li class="divider"></li>
+            <li class="nav-header">Categories</li>
+            <li><a href="{{ site.baseurl }}/getting_started/">Getting Started</a></li>
+            <li><a href="{{ site.baseurl }}/reactivity/">Reactivity</a></li>
+            <li><a href="{{ site.baseurl }}/layout/">Application Layout</a></li>
+            <li><a href="{{ site.baseurl }}/ggvis/">Graphics with ggvis</a></li>
+          </ul>
+        </li>
+      </ul>
+      <form class="navbar-search pull-left">
+        <input type="text" class="search-query" placeholder="Search">
+      </form>
+      
+      {% if page.get_code %}
+      <a class="btn btn-primary pull-right" href="https://github.com/rstudio/shiny" target="_blank"><i class="fa fa-github"></i>&nbsp;Get the Code</a>
+      {% endif %}
     </div>
   </div>
+</div>
+
 
   {{ content }}
 
