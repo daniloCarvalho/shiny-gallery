@@ -7,8 +7,8 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <link href="/external/bootstrap/themes/cerulean/bootstrap.min.css" rel="stylesheet">
-  <link href="/external/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <link href="{{ site.baseurl }}/external/bootstrap/themes/cerulean/bootstrap.min.css" rel="stylesheet">
+  <link href="{{ site.baseurl }}/external/font-awesome/css/font-awesome.min.css" rel="stylesheet">
 
   <style type="text/css">
     body {
@@ -17,15 +17,11 @@
   </style>
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="/external/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
-
-  <!--[if lt IE 9]>
-    <script src="../assets/js/html5shiv.js"></script>
-  <![endif]-->
+  <link href="{{ site.baseurl }}/external/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
 
   <link rel="shortcut icon" href="data:image/x-icon;" type="image/x-icon"> 
 
-  <script type="text/javascript" src="/external/jquery/jquery-1.10.2.min.js"></script>
+  <script type="text/javascript" src="{{ site.baseurl }}/external/jquery/jquery-1.10.2.min.js"></script>
       
 </head>
 
@@ -36,8 +32,8 @@
       <div class="container">
         <a class="brand" href="#">Shiny Gallery</a>
         <ul class="nav">
-          <li class="active"><a href="/">Home</a></li>
-          <li><a href="/apps.html">Apps</a></li>
+          <li class="active"><a href="{{ site.baseurl }}">Home</a></li>
+          <li><a href="{{ site.baseurl }}/apps.html">Apps</a></li>
         </ul>
         <form class="navbar-search pull-left">
           <input type="text" class="search-query" placeholder="Search">
@@ -48,7 +44,7 @@
 
   {{ content }}
 
-  <script src="/external/bootstrap/js/bootstrap.min.js"></script>
+  <script src="{{ site.baseurl }}/external/bootstrap/js/bootstrap.min.js"></script>
 
 </body>  
 </html>

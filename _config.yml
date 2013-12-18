@@ -1,3 +1,9 @@
-name: Your New Jekyll Site
+name: Shiny Gallery
 markdown: redcarpet
 pygments: true
+
+# recommendation on handling github pages urls: 
+# http://jekyllrb.com/docs/github-pages/#project_page_url_structure
+baseurl: /shiny-gallery
+
+
