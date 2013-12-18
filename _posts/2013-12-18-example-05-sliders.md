@@ -7,3 +7,4 @@ app_url: "http://gallery.shinyapps.io/05_sliders"
 source_url: "https://gist.github.com/jjallaire/8021965"
 ---
 
+The Sliders application demonstrates the many capabilities of slider controls, including the ability to run an animation sequence. 

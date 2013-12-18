@@ -7,4 +7,6 @@ app_url: "http://gallery.shinyapps.io/02_text"
 source_url: "https://gist.github.com/jjallaire/8021869"
 ---
 
+The Shiny Text application demonstrates printing R objects directly, as well as displaying data frames using HTML tables. 
+
 

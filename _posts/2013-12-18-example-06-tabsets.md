@@ -7,3 +7,4 @@ app_url: "http://gallery.shinyapps.io/06_tabsets"
 source_url: "https://gist.github.com/jjallaire/8021984"
 ---
 
+The Tabsets application demonstrates using tabs to organize output.
