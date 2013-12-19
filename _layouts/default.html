@@ -54,17 +54,19 @@
         <input type="text" class="search-query" placeholder="Search">
       </form>
       {% if page.source_url %}
-      <ul class="nav pull-right">
-        <li class="dropdown">
-          <a id="app-share" class="dropdown-toggle" href="#" data-toggle="dropdown">
-            <i class="fa fa-share"></i>
-          </a>
-          <div class="dropdown-menu">
-            Here it is!!!
-          </div>
-        </li>
-      </ul>
-      <a id="app-get-code" class="btn btn-primary pull-right" href="{{ page.source_url}}"><i class="fa fa-github"></i>&nbsp;Get the Code</a>
+      <div class="dropdown pull-right">
+        <a id="app-share" title="Share this" 
+           class="btn btn-primary dropdown-toggle" href="#" data-toggle="dropdown">
+          <i class="fa fa-share"></i>
+        </a>
+        <div class="dropdown-menu">
+        <div class="popover-title">Share this</div>
+        <div id="app-share-widgets" class="popover-content">
+        {% include share_app.html %}
+        </div>
+        </div>
+      </div>
+      <a id="app-get-code" class = "btn btn-primary pull-right" href="{{ page.source_url}}"><i class="fa fa-github"></i>&nbsp;Get the Code</a>>
       {% else  %}
       <ul class="nav pull-right">
         <li><a href="{{ site.baseurl }}/feed.xml" title="RSS Feed"><i class="fa fa-rss fa-lg"></i></a></li>

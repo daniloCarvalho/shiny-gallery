@@ -4,6 +4,13 @@
   margin-right: 8px;
 }
 
+#app-share-widgets {
+  padding: 15px; 
+}
+
+.twitter-share-button {
+  margin-bottom: 10px;
+}
 
 .navbar-search input {
   width: 120px;
