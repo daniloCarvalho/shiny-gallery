@@ -26,6 +26,10 @@ body {
   margin-bottom: 15px;
 }
 
+.swiftype-hidden-content {
+  display: none;
+}
+
 .shiny-app-frame {
   border:none;
   position:fixed;

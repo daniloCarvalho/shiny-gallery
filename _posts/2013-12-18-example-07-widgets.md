@@ -1,6 +1,6 @@
 ---
 layout: app
-title: "07_widgets"
+title: "More Widgets"
 date: 2013-12-18 09:32:35
 tags: getting-started
 app_url: "http://gallery.shinyapps.io/07_widgets"

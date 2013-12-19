@@ -30,7 +30,15 @@
   
     ga('create', 'UA-20375833-8', 'shinygallery.com');
     ga('send', 'pageview');
-  </script>    
+  </script>   
+  
+  <!-- swiftype -->
+  {% if page.source_url %}
+  <meta property='st:title' content='{{ page.title }}'/>
+  <meta property='st:published_at' content='{{ page.date | date_to_xmlschema }}'/>  
+  <meta property='st:image' content='{{ site.url }}/images/thumbnails/{{ page.thumbnail }}'/>
+  <meta property='st:info' content="{{ page.content | markdownify | xml_escape }}"/>
+  {% endif %}
       
 </head>
 
