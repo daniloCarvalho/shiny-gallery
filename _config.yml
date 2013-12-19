@@ -1,8 +1,8 @@
 name: Shiny Gallery
 description: Gallery of Shiny example applications
 permalink: /apps/:title.html
-url: http://rstudio.github.io/shiny-gallery
-baseurl: /shiny-gallery
+url: http://shinygallery.com
+baseurl: ''
 exclude: 
   - README.md 
   - shiny-gallery.Rproj
