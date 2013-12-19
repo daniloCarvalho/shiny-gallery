@@ -2,10 +2,12 @@
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
   <meta charset="utf-8">
-  <title>Shiny Gallery{% if page.title %}: {{ page.title }}{% endif %}</title>
+  <title>{{ site.name }}{% if page.title %}: {{ page.title }}{% endif %}</title>
    
   <meta name="description" content="">
   <meta name="author" content="">
+
+  <link rel="alternate" type="application/atom+xml" title="{{ site.name }}" href="{{ site.baseurl }}/feed.xml"/>
 
   <link href="{{ site.baseurl }}/external/bootstrap/themes/cerulean/bootstrap.min.css" rel="stylesheet">
   <link href="{{ site.baseurl }}/css/main.css" rel="stylesheet">
