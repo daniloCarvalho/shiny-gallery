@@ -56,7 +56,8 @@
       
       
       {% if page.source_url %}
-      <a class="btn btn-primary pull-right" href="{{ page.source_url}}"><i class="fa fa-github"></i>&nbsp;Get the Code</a>
+      <a id="app-share" class="btn btn-primary pull-right" href="{{ page.source_url}}"><i class="fa fa-share"></i></a>
+      <a id="app-get-code" class="btn btn-primary pull-right" href="{{ page.source_url}}"><i class="fa fa-github"></i>&nbsp;Get the Code</a>
       {% else  %}
       <ul class="nav pull-right">
         <li><a href="{{ site.baseurl }}/feed.xml" title="RSS Feed"><i class="fa fa-rss fa-lg"></i></a></li>
