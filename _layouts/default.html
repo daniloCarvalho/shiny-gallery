@@ -48,13 +48,19 @@
             <li><a href="{{ site.baseurl }}/tags/application-layout.html">Application Layout</a></li>
           </ul>
         </li>
+        <li><a href="{{ site.baseurl }}/about.html" title="About the {{ site.name }}">About</a></li>
       </ul>
       <form class="navbar-search pull-left">
         <input type="text" class="search-query" placeholder="Search">
       </form>
       
+      
       {% if page.source_url %}
       <a class="btn btn-primary pull-right" href="{{ page.source_url}}"><i class="fa fa-github"></i>&nbsp;Get the Code</a>
+      {% else  %}
+      <ul class="nav pull-right">
+        <li><a href="{{ site.baseurl }}/feed.xml" title="RSS Feed"><i class="fa fa-rss fa-lg"></i></a></li>
+      </ul>
       {% endif %}
     </div>
   </div>
