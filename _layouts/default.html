@@ -31,6 +31,13 @@
     ga('create', 'UA-20375833-8', 'shinygallery.com');
     ga('send', 'pageview');
   </script>   
+  
+  <!-- swiftype -->
+  {% if page.source_url %}
+  <meta property='st:title' content='{{ page.title }}'/>
+  <meta property='st:published_at' content='{{ page.date | date_to_xmlschema }}'/>  
+  <meta property='st:image' content='{{ site.url }}/images/thumbnails/{{ page.thumbnail }}'/>
+  {% endif %}
       
 </head>
 
@@ -59,9 +66,25 @@
         </li>
         <li><a href="{{ site.baseurl }}/about" title="About the {{ site.name }}">About</a></li>
       </ul>
+      
+      <!-- swiftype search -->
       <form class="navbar-search pull-left">
-         <input type="text" class="search-query" placeholder="Search">
+        <input type="text" id="st-search-input" class="search-query" placeholder="Search">
       </form>    
+      <script type="text/javascript">
+        var Swiftype = window.Swiftype || {};
+          (function() {
+            Swiftype.key = 'oxpd3smJpVdqwopt2uiv';
+            Swiftype.disableAutocomplete = true;        
+            /** DO NOT EDIT BELOW THIS LINE **/
+            var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+            script.src = "//swiftype.com/embed.js";
+            var entry = document.getElementsByTagName('script')[0];
+            document.getElementsByTagName('script')[0].parentNode.insertBefore(script, entry);
+          }());
+      </script>
+       
+      
       {% if page.source_url %}
       <div class="dropdown pull-right">
         <a id="app-share" title="Share this" 
