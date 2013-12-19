@@ -10,7 +10,7 @@
         <description>
              {{ post.content | xml_escape }}
              &lt;p&gt;&lt;a href=&quot;{{ site.url }}{{ post.url }}&quot;&gt;{{ site.url }}{{ post.url }}&lt;/a&gt;&lt;/p&gt;
-             &lt;img src=&quot;{{ site.baseurl }}/thumbnails/{{ post.thumbnail }}&quot;&gt;
+             &lt;img src=&quot;{{ site.baseurl }}/images/thumbnails/{{ post.thumbnail }}&quot;&gt;
         </description>
         <pubDate>{{ post.date | date: "%a, %d %b %Y %H:%M:%S %z" }}</pubDate>
         <link>{{ site.url }}{{ post.url }}</link>

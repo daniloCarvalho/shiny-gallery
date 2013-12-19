@@ -1,5 +1,11 @@
 
 
+body {
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
+
 #app-get-code {
   margin-right: 8px;
 }
@@ -14,6 +20,10 @@
 
 .navbar-search input {
   width: 120px;
+}
+
+.more-button {
+  margin-bottom: 15px;
 }
 
 .shiny-app-frame {
