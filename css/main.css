@@ -22,6 +22,31 @@ body {
   width: 140px;
 }
 
+.app-typeahead-wrapper { 
+  display: block; 
+  height: 120px; 
+}
+
+.app-typeahead-thumbnail { 
+  float: left; 
+  max-height: 110px; 
+  margin-right: 15px; 
+  padding-top: 5px;
+}
+
+.app-typeahead-text {
+  float: left; 
+  width: 300px;
+  max-height: 110px;
+  white-space: normal;
+}
+
+.typeahead.dropdown-menu > li {
+  width: 550px !important;
+}
+
+
+
 .more-button {
   margin-bottom: 15px;
 }
