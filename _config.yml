@@ -1,6 +1,12 @@
 name: Shiny Gallery
+description: Gallery of Shiny example applications
 permalink: /apps/:title.html
 baseurl: /shiny-gallery
+exclude: 
+  - README.md 
+  - shiny-gallery.Rproj
+
+
 
 
 
