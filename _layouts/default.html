@@ -60,10 +60,7 @@
         <li><a href="{{ site.baseurl }}/about" title="About the {{ site.name }}">About</a></li>
       </ul>
       <form class="navbar-search pull-left">
-         <input id="app-search" 
-                type="text" class="search-query" placeholder="Search"
-                autocomplete = "off"
-                data-provide = "typeahead">
+         <input type="text" class="search-query" placeholder="Search">
       </form>    
       {% if page.source_url %}
       <div class="dropdown pull-right">
@@ -93,8 +90,6 @@
 
   <script src="{{ site.baseurl }}/external/bootstrap/js/bootstrap.min.js"></script>
 
-  <script src="{{ site.baseurl }}/js/app-search.js"></script>
-
   <script>
     
     $(function() {
@@ -102,9 +97,6 @@
       var loc = this.location.pathname;
       loc = "/" + loc.split('/')[1];
       $('a[href="' + loc + '"]').parent().addClass('active'); 
-      
-      // initialize app search
-      initializeAppSearch($('#app-search'));  
     });
     
   </script>
