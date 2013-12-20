@@ -7,7 +7,7 @@ if (length(args) != 1)
 appUrl <- args[1]
 
 
-# Download the DESCRIPTION file from the source URL
+# Download the DESCRIPTION and Readme.md file from the source URL
 
 # Emit an error if the file is missing required fields or has values 
 # incompatible with the gallery (i.e. the app must be set to be visible
