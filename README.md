@@ -37,13 +37,13 @@ DefaultShowcaseMode: 1
 The Gallery takes advantage of a new feature of Shiny called showcase mode which displays applications along with their source code. **IMPORTANT NOTE**: Showcase mode is currently available only on a development branch of Shiny. To install this version of Shiny:
 
 ```r
-> devtools::install("rstudio/shiny", ref = "feature/showcase-mode")
+devtools::install("rstudio/shiny", ref = "feature/showcase-mode")
 ```
 
 The `DefaultShowcaseMode` entry ensures that your application can be run in showcase mode. To preview your application in showcase mode locally you can do this:
 
 ```r
-> runApp(showcase = TRUE)
+runApp(showcase = TRUE)
 ```
 
 Alternatively you can append `showcase=1` to the application query string.
@@ -70,7 +70,7 @@ This script installs the Ruby bundles [jekyll](http://jekyllrb.com/) and [gist](
 To import an application you run the `import` utility, providing the URL of the application as a command line parameter. For example:
 
 ```bash
-$ ./import http://gallery.shinyapps.io/animated-slider
+$ ./import.R http://gallery.shinyapps.io/animated-slider
 ```
 
 The import script will download the application's `DESCRIPTION` file, verify that it has the required entries, and generate a thumbnail of the application using phantom.js. Note that you can also provide your own thumbnail by including a file named `thumbnail.png` in the application's directory (thumbnail dimensions should be approximately 910x660 pixels).

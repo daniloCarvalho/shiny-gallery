@@ -3,7 +3,7 @@
 # read appUrl argument
 args <- commandArgs(TRUE)
 if (length(args) != 1)
-  stop("Usage: import <application-url>")
+  stop("Usage: ./import.R <application-url>")
 appUrl <- args[1]
 
 

@@ -5,7 +5,7 @@ url: http://shinygallery.com
 baseurl: ''
 exclude: 
   - COPYING
-  - import
+  - import.R
   - README.md 
   - shiny-gallery.Rproj
 
