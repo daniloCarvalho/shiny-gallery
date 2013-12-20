@@ -17,22 +17,33 @@ if (!file.exists(descFile)) {
        descFile)
 }
 desc <- read.dcf(descFile)
-requiredCols <- c("Title", "Author", "AuthorUrl", "License", "DefaultShowcaseMode")
+requiredCols <- c("Title", "Author", "AuthorUrl", "License", 
+                  "DefaultShowcaseMode", "AllowShowcaseModeOverride")
 missingCols <- setdiff(requiredCols, colnames(desc))
 if (length(missingCols) > 0) {
   stop("DESCRIPTION file is missing required field(s): ", 
        paste(missingCols, collapse = ", "))
 }
 
-if (as.numeric(desc[1,"DefaultShowcaseMode"]) != 1) {
-  stop("Shiny Gallery applications must set DefaultShowcaseMode: 1 in the DESCRIPTION file.")
-}
+requiredVals <- list(
+  DefaultShowcaseMode = "1", 
+  License = "MIT", 
+  AllowShowcaseModeOverride = "TRUE")
 
-if (desc[1,"License"] != "MIT") {
-  stop("Shiny Gallery application code must be released under the MIT license.")
+for (i in 1:length(requiredVals)) {
+  if (desc[1,names(requiredVals)[i]] != requiredVals[i]) {
+    stop("Incorrect value for ", names(requiredVals)[i], ": expected ", 
+         requiredVals[i], ", actual ", desc[1, names(requiredVals[i])])
+  }
 }
 
 message("OK")
+
+# Create a filename-friendly version of the title
+appNameKey <- tolower(desc[1,"Title"])
+appNameKey <- gsub("\\s+", "-", appNameKey)
+
+# TODO: Remove non-alphanumeric characters
 
 # Hit the app URL to make sure it returns something that looks vaguely 
 # like a Shiny app 
@@ -63,19 +74,36 @@ for (file in files) {
   for (line in lines) {
     lineNum <- lineNum + 1
     if (nchar(line) > 65) {
-      stop("Found line over 65 characters long in ", file, ":\n", lineNum, ":", line, 
+      stop(nchar(line), "-character line found in ", file, ":\n", lineNum, ":", line, 
            "\n", "Lines longer than 65 characters may be wrapped in side-by-side view.")
     }
   }
   message("OK")
 }
 
-# Create an anonymous gist containing the source files using the ruby
-# gist utility
-
 # Check to see if the app's source contains a thumbnail.png, and take a
 # snapshot with phantom.js if it doesn't; either way, save the thumbnail to
 # images/thumbnails
+thumbnailSrc <- file.path(codePath, "thumbnail.png")
+thumbnailDest <- file.path(".", "images", "thumbnails", paste(appNameKey, ".png", sep=""))
+
+if (file.exists(thumbnailSrc)) {
+  message("Using included thumbnail ", thumbnailSrc, "... ", appendLF = FALSE)
+  file.copy(thumbnailSrc, thumbnailDest)
+  message("OK")
+} else {
+  message("Taking a screenshot for a thumbnail... ", appendLF = FALSE)
+  result <- system(paste("_dependencies/phantomjs-1.9.2 screenshot.js ", 
+                         appUrl, "?showcase=0 ", thumbnailDest, sep = ""), 
+                   intern = TRUE, ignore.stderr = TRUE, ignore.stdout = TRUE) 
+  if (!file.exists(thumbnailDest)) {
+    stop(result)
+  } 
+  message("OK")
+}
+
+# Create an anonymous gist containing the source files using the ruby
+# gist utility
 
 # Write the post .md file based on the contents of DESCRIPTION. Note that
 # if this is an update of an existing application we should be sure to 
