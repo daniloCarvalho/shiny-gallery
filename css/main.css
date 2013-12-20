@@ -14,15 +14,15 @@ body {
   padding: 15px; 
 }
 
+.app-share-widget {
+  margin-bottom: 10px;
+}
+
 .app-thumbnail-text {
   padding-left: 2px;
   padding-top: 3px;
   font-size: 0.85em;
   font-style: italic;
-}
-
-.twitter-share-button {
-  margin-bottom: 10px;
 }
 
 .navbar-search input {
