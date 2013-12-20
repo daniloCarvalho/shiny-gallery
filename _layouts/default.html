@@ -59,9 +59,7 @@
             <li><a href="{{ site.baseurl }}/tags/recent">Recently Added</a></li>
             <li class="divider"></li>
             <li class="nav-header">By Category</li>
-            <li><a href="{{ site.baseurl }}/tags/getting-started">Getting Started</a></li>
-            <li><a href="{{ site.baseurl }}/tags/reactivity">Reactivity</a></li>
-            <li><a href="{{ site.baseurl }}/tags/application-layout">Application Layout</a></li>
+            {% include category_list.html %}
           </ul>
         </li>
         <li><a href="{{ site.baseurl }}/about" title="About the {{ site.name }}">About</a></li>
