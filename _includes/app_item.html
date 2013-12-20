@@ -1,6 +1,9 @@
 
-<li class="span4">
-  <a href="{{ site.baseurl }}{{ app_item.url }}" class="thumbnail">
-    <img src="{{ site.baseurl }}/images/thumbnails/{{ app_item.thumbnail }}" alt="">
-  </a>
+<li class="span3">
+  <div>
+    <a href="{{ site.baseurl }}{{ app_item.url }}" class="thumbnail">
+      <img src="{{ site.baseurl }}/images/thumbnails/{{ app_item.thumbnail }}" alt="">
+    </a>
+    <a class="text-info app-thumbnail-text" href="{{ site.baseurl }}{{ app_item.url }}">{{ app_item.title }}</a>
+  </div>
 </li>

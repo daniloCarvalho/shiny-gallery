@@ -14,6 +14,15 @@ body {
   padding: 15px; 
 }
 
+.home-header {
+  padding-top: 7px;
+}
+
+.app-thumbnail-text {
+  padding-left: 2px;
+  padding-top: 3px;
+}
+
 .twitter-share-button {
   margin-bottom: 10px;
 }

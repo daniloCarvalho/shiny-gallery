@@ -2,7 +2,7 @@
 layout: content
 ---
 
-<h3>Featured Apps</h3>
+<h4 class="home-header">Featured Apps</h4>
 
 {% assign app_list = site.tags['featured'] %} 
 {% assign limit = 3 %} 
@@ -12,8 +12,8 @@ layout: content
    More <i class="fa fa-angle-double-right"></i>
 </a>
 
-<h3>Recently Added</h3> 
- 
+<h4 class="home-header">Recently Added</h4> 
+
 {% assign app_list = site.posts %}  
 {% assign limit = 5 %} 
 {% include app_list.html %}   
@@ -21,7 +21,6 @@ layout: content
 <a class="btn more-button" href="{{ site.baseurl }}/tags/recent">
    More <i class="fa fa-angle-double-right"></i>
 </a>
-
 
 
 
