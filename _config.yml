@@ -4,6 +4,7 @@ permalink: /apps/:title.html
 url: http://shinygallery.com
 baseurl: ''
 exclude: 
+  - COPYING
   - README.md 
   - shiny-gallery.Rproj
 
