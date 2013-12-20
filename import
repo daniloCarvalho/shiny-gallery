@@ -1,0 +1,35 @@
+#! /usr/bin/env Rscript
+
+# read appUrl argument
+args <- commandArgs(TRUE)
+if (length(args) != 1)
+  stop("Usage: import <application-url>")
+appUrl <- args[1]
+
+
+# Download the DESCRIPTION file from the source URL
+
+# Emit an error if the file is missing required fields or has values 
+# incompatible with the gallery (i.e. the app must be set to be visible
+# in showcase mode)
+
+# Hit the app URL to make sure it returns something that looks vaguely 
+# like a Shiny app 
+
+# Download the application's source files (ui.R, server.R, and global.R as 
+# well as any files included in the Sources field of the DESCRIPTION).
+# Verify that their line widths are <= 65. NOTE: this will require that 
+# apps in showcase mode have an endpoint for fetching raw source files
+
+# Create an anonymous gist containing the source files using the ruby
+# gist utility
+
+# Check to see if the app's source contains a thumbnail.png, and take a
+# snapshot with phantom.js if it doesn't; either way, save the thumbnail to
+# images/thumbnails
+
+# Write the post .md file based on the contents of DESCRIPTION. Note that
+# if this is an update of an existing application we should be sure to 
+# overwrite that .md rather than create a new one.
+
+
