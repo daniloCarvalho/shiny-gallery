@@ -14,13 +14,11 @@ body {
   padding: 15px; 
 }
 
-.home-header {
-  padding-top: 7px;
-}
-
 .app-thumbnail-text {
   padding-left: 2px;
   padding-top: 3px;
+  font-size: 0.85em;
+  font-style: italic;
 }
 
 .twitter-share-button {
