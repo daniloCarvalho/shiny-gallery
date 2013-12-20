@@ -39,11 +39,15 @@ for (i in 1:length(requiredVals)) {
 
 message("OK")
 
-# Create a filename-friendly version of the title
+# Create a filename-friendly version of the title. 
+# In: "Hello, World!"  -> Out: "hello-world"
 appNameKey <- tolower(desc[1,"Title"])
-appNameKey <- gsub("\\s+", "-", appNameKey)
-
-# TODO: Remove non-alphanumeric characters
+# Convert non-alphanumeric (word) characters to dashes
+appNameKey <- gsub("\\W", "-", appNameKey)
+# Collapse sequences of dashes to a single dash
+appNameKey <- gsub("-+", "-", appNameKey)
+# Don't begin or end with a dash
+appNameKey <- gsub("^-|-$", "", appNameKey)
 
 # Hit the app URL to make sure it returns something that looks vaguely 
 # like a Shiny app 
