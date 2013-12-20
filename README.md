@@ -48,7 +48,7 @@ If you want to submit a contribution as a pull request rather than an issue, you
 
 #### Installing Dependencies ####
 
-To run the Shiny Gallery locally you need to be on Linux or Mac OS X. You also need to install some dependencies. These dependencies include the Ruby libraries required to run [Jekyll](http://jekyllrb.com/). To isolate these Ruby libraries from others on your system it's strongly recommended that you first install [RVM](https://rvm.io/) (Ruby Version Manager).
+To run the Shiny Gallery locally you need to be on Linux or Mac OS X. You also need to install some dependencies. These dependencies include several Ruby libraries, oo isolate these libraries from others on your system it's strongly recommended that you first install [RVM](https://rvm.io/) (Ruby Version Manager).
 
 Once you've installed RVM you should execute the following from the root directory of the repository: 
 
@@ -56,7 +56,7 @@ Once you've installed RVM you should execute the following from the root directo
 $ _dependencies/install
 ```
 
-This script installs both Jekyll and [phantom.js](http://phantomjs.org/) (used for capturing thumbnails of Shiny applications).
+This script installs the Ruby bundles [jekyll](http://jekyllrb.com/) and [gist](http://defunkt.io/gist/) as well as [phantom.js](http://phantomjs.org/) (used for capturing thumbnails of Shiny applications).
 
 #### Performing the Import ####
 

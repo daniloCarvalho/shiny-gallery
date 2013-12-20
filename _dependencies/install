@@ -55,3 +55,7 @@ fi
 # install jekyll
 gem install jekyll
 
+# install ruby gister
+gem install gist
+
+
