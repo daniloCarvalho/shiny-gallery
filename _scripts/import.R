@@ -18,7 +18,8 @@ if (!file.exists(descFile)) {
 }
 desc <- read.dcf(descFile)
 requiredCols <- c("Title", "Author", "AuthorUrl", "License", 
-                  "DefaultShowcaseMode", "AllowShowcaseModeOverride")
+                  "DefaultShowcaseMode", "AllowShowcaseModeOverride", 
+                  "Type", "Tags")
 missingCols <- setdiff(requiredCols, colnames(desc))
 if (length(missingCols) > 0) {
   stop("DESCRIPTION file is missing required field(s): ", 
@@ -28,7 +29,8 @@ if (length(missingCols) > 0) {
 requiredVals <- list(
   DefaultShowcaseMode = "1", 
   License = "MIT", 
-  AllowShowcaseModeOverride = "TRUE")
+  AllowShowcaseModeOverride = "TRUE",
+  Type = "ShinyShowcase")
 
 for (i in 1:length(requiredVals)) {
   if (desc[1,names(requiredVals)[i]] != requiredVals[i]) {
@@ -89,15 +91,16 @@ for (file in files) {
 # snapshot with phantom.js if it doesn't; either way, save the thumbnail to
 # images/thumbnails
 thumbnailSrc <- file.path(codePath, "thumbnail.png")
-thumbnailDest <- file.path(".", "images", "thumbnails", paste(appNameKey, ".png", sep=""))
+thumbnailDest <- file.path("..", "images", "thumbnails", 
+                           paste(appNameKey, ".png", sep=""))
 
 if (file.exists(thumbnailSrc)) {
   message("Using included thumbnail ", thumbnailSrc, "... ", appendLF = FALSE)
   file.copy(thumbnailSrc, thumbnailDest)
   message("OK")
 } else {
-  message("Taking a screenshot for a thumbnail... ", appendLF = FALSE)
-  result <- system(paste("_dependencies/phantomjs-1.9.2 screenshot.js ", 
+  message("Taking a screenshot for a thumbnail (takes 20 seconds)... ", appendLF = FALSE)
+  result <- system(paste("../_dependencies/phantomjs-1.9.2 screenshot.js ", 
                          appUrl, "?showcase=0 ", thumbnailDest, sep = ""), 
                    intern = TRUE, ignore.stderr = TRUE, ignore.stdout = TRUE) 
   if (!file.exists(thumbnailDest)) {

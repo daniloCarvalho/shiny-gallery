@@ -6,8 +6,11 @@ var system = require('system');
 page.viewportSize = { width: 910, height: 660 };
 page.onLoadFinished = function(status) {
   page.clipRect = { left: 0, top: 0, width: 910, height: 660 };
-  page.render(system.args[2]);
-  phantom.exit();
+  // Wait ~10 seconds for the page to render 
+  window.setTimeout(function() {
+    page.render(system.args[2]);
+    phantom.exit();
+  }, 10000);
 };
 page.open(system.args[1]);
 
