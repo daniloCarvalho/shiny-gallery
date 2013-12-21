@@ -43,13 +43,13 @@ message("OK")
 
 # Create a filename-friendly version of the title. 
 # In: "Hello, World!"  -> Out: "hello-world"
-appNameKey <- tolower(desc[1,"Title"])
+appKey <- tolower(desc[1,"Title"])
 # Convert non-alphanumeric (word) characters to dashes
-appNameKey <- gsub("\\W", "-", appNameKey)
+appKey <- gsub("\\W", "-", appKey)
 # Collapse sequences of dashes to a single dash
-appNameKey <- gsub("-+", "-", appNameKey)
+appKey <- gsub("-+", "-", appKey)
 # Don't begin or end with a dash
-appNameKey <- gsub("^-|-$", "", appNameKey)
+appKey <- gsub("^-|-$", "", appKey)
 
 # Hit the app URL to make sure it returns something that looks vaguely 
 # like a Shiny app 
@@ -92,7 +92,7 @@ for (file in files) {
 # images/thumbnails
 thumbnailSrc <- file.path(codePath, "thumbnail.png")
 thumbnailDest <- file.path("..", "images", "thumbnails", 
-                           paste(appNameKey, ".png", sep=""))
+                           paste(appKey, ".png", sep=""))
 
 if (file.exists(thumbnailSrc)) {
   message("Using included thumbnail ", thumbnailSrc, "... ", appendLF = FALSE)
@@ -107,6 +107,23 @@ if (file.exists(thumbnailSrc)) {
     stop(result)
   } 
   message("OK")
+}
+
+message("Checking for existing gallery entry... ", appendLF = FALSE)
+# Check to see if the app key already exists
+existingFiles <- list.files("../_posts")
+
+# Create a list of keys from files (YYYY-MM-DD-key-name.md => key-name)
+existingKeys <- substring(existingFiles, 12, 
+                          unlist(lapply(existingFiles, nchar)) - 3)
+
+if (appKey %in% existingKeys) {
+  appFileName <- existingFiles[which(existingKeys == appKey, arr.ind = TRUE)]
+  message("Using existing post '", appFileName, "'")
+} else {
+  appFileName <- paste(format(Sys.time(), "%Y-%0m-%0d"), "-", appKey, ".md", 
+                       sep = "")
+  message("Creating new entry '", appFileName, "'")
 }
 
 # Create an anonymous gist containing the source files using the ruby
