@@ -2,7 +2,7 @@
 
 # read appUrl argument
 args <- commandArgs(TRUE)
-if (length(args) != 2)
+if (length(args) < 2)
   stop("Usage: ./import.R <code-path> <application-url> [<code-url>]\n", 
        "   code-path - path to application on disk (local)\n", 
        "   application-url - URL to deployed application (http or https) \n",
@@ -17,7 +17,7 @@ message("Checking DESCRIPTION... ", appendLF = FALSE)
 descFile <- file.path(codePath, "DESCRIPTION")
 if (!file.exists(descFile)) {
   stop("Shiny Gallery applications must have a DESCRIPTION file (expected at ", 
-       descFile)
+       descFile, ")")
 }
 desc <- read.dcf(descFile)
 requiredCols <- c("Title", "Author", "AuthorUrl", "License", 
@@ -55,7 +55,8 @@ appKey <- gsub("-+", "-", appKey)
 appKey <- gsub("^-|-$", "", appKey)
 
 # Hit the app URL to make sure it returns something that looks vaguely 
-# like a Shiny app 
+# like a Shiny app. 
+# TODO: Use downloader package instead
 message("Testing app URL... ", appendLF = FALSE)
 conn <- url(appUrl, open="r")
 contents <- paste(readLines(conn, 25))
@@ -135,15 +136,19 @@ if (appKey %in% existingKeys) {
 # Create an anonymous gist containing the source files using the ruby
 # gist utility
 
-# TODO: Accept source-url argument
 # TODO: If using an existing post, update the existing gist
 
-message("Uploading code... ", appendLF = FALSE)
-gistUrl <- system(paste('gist -d "', desc[1,"Title"], '" ', 
-                        file.path(codePath, "*.R"), sep = ""),
-                  intern = TRUE)
-message("OK\n",
-        "    Created ", gistUrl)
+if (length(args) > 2) {
+  sourceUrl <- args[3]
+  # TODO: Validate that source URL is reachable
+} else {
+  message("Uploading code... ", appendLF = FALSE)
+  sourceUrl <- system(paste('gist -d "', desc[1,"Title"], '" ', 
+                          file.path(codePath, "*.R"), sep = ""),
+                      intern = TRUE)
+  message("OK\n",
+          "    Created ", sourceUrl)
+}
 
 # Write the post .md file based on the contents of DESCRIPTION. Note that
 # if this is an update of an existing application we should be sure to 
@@ -156,7 +161,7 @@ writeLines(c('---',
              paste('date: ', format(Sys.time(), "%Y-%0m-%0d %H:%M:%S"), sep = ""),
              paste('tags:', desc[1,"Tags"]),
              paste('app_url:', appUrl), 
-             paste('source_url:', gistUrl), 
+             paste('source_url:', sourceUrl), 
              paste('thumbnail: ',appKey, '.png', sep = ""), 
              '---'), 
            con = conn)
