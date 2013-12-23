@@ -3,7 +3,10 @@
 # read appUrl argument
 args <- commandArgs(TRUE)
 if (length(args) != 2)
-  stop("Usage: ./import.R <code-path> <application-url>")
+  stop("Usage: ./import.R <code-path> <application-url> [<code-url>]\n", 
+       "   code-path - path to application on disk (local)\n", 
+       "   application-url - URL to deployed application (http or https) \n",
+       "   code-url - optional; URL to hosted code. If missing, a gist will be created.")
 codePath <- args[1]
 appUrl <- args[2]
 
@@ -116,21 +119,47 @@ existingFiles <- list.files("../_posts")
 # Create a list of keys from files (YYYY-MM-DD-key-name.md => key-name)
 existingKeys <- substring(existingFiles, 12, 
                           unlist(lapply(existingFiles, nchar)) - 3)
+message("OK")
 
 if (appKey %in% existingKeys) {
   appFileName <- existingFiles[which(existingKeys == appKey, arr.ind = TRUE)]
-  message("Using existing post '", appFileName, "'")
+  message("    Using existing post '", appFileName, "'")
 } else {
   appFileName <- paste(format(Sys.time(), "%Y-%0m-%0d"), "-", appKey, ".md", 
                        sep = "")
-  message("Creating new entry '", appFileName, "'")
+  message("    Creating new post '", appFileName, "'")
 }
+
+# TODO: Validate tags
 
 # Create an anonymous gist containing the source files using the ruby
 # gist utility
+
+# TODO: Accept source-url argument
+# TODO: If using an existing post, update the existing gist
+
+message("Uploading code... ", appendLF = FALSE)
+gistUrl <- system(paste('gist -d "', desc[1,"Title"], '" ', 
+                        file.path(codePath, "*.R"), sep = ""),
+                  intern = TRUE)
+message("OK\n",
+        "    Created ", gistUrl)
 
 # Write the post .md file based on the contents of DESCRIPTION. Note that
 # if this is an update of an existing application we should be sure to 
 # overwrite that .md rather than create a new one.
 
+conn <- file(file.path("..", "_posts", appFileName), open = "wt")
+writeLines(c('---', 
+             'layout: app', 
+             paste('title: "', desc[1,"Title"], '"', sep = ""),
+             paste('date: ', format(Sys.time(), "%Y-%0m-%0d %H:%M:%S"), sep = ""),
+             paste('tags:', desc[1,"Tags"]),
+             paste('app_url:', appUrl), 
+             paste('source_url:', gistUrl), 
+             paste('thumbnail: ',appKey, '.png', sep = ""), 
+             '---'), 
+           con = conn)
+close(conn)
 
+message("Import successfully completed.")
