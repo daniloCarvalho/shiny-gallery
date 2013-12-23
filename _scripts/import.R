@@ -166,9 +166,6 @@ if (appKey %in% existingKeys) {
 }
 appFilePath <- file.path("..", "_posts", appFileName)
 
-# Create an anonymous gist containing the source files using the ruby
-# gist utility
-
 if (length(args) > 2) {
   # Manually specified source URL: use as-is, just be sure it's a legit URL
   sourceUrl <- args[3]
@@ -184,11 +181,15 @@ if (length(args) > 2) {
   message("OK")
 } else {
   message("Uploading code... ", appendLF = FALSE)
-  cmd <- paste('gist -d "', desc[1,"Title"], '"', sep = "")
+  cmdStem <- paste('gist -d "', desc[1,"Title"], '"', sep = "")
+  sourceUrl <- ""
+  cmd <- cmdStem
   method <- "Created"
-  if (file.exists(appFilePath)) {
-    # Updating an existing entry--check to see if this is a github gist URL;
-    # if it is, we want to update it
+  # If there might already be a gist for this app, and the user is logged in to 
+  # the gist utility (and therefore might have permissions to update the gist), 
+  # try an update.
+  if (file.exists(appFilePath) &&
+      file.exists("~/.gist")) {
     appDetails <- yamlFromMd(appFilePath)
     if (length(appDetails) > 0) {
       gistUrl <- regmatches(appDetails$source_url, 
@@ -196,11 +197,28 @@ if (length(args) > 2) {
       if (length(gistUrl) > 0) {
         cmd <- paste(cmd, "-u", regmatches(gistUrl, regexpr("\\d+", gistUrl)))
         method <- "Updated"
+        # Unfortunately there is not a straightforward mechanism for determining
+        # whether we have permission to update this gist; we'll try below and 
+        # if a failure occurs we'll fall back on create.
       }
     }
   }
   cmd <- paste(cmd, file.path(codePath, "*.R"))
-  sourceUrl <- system(cmd, intern = TRUE)
+  tryCatch({
+      sourceUrl <- system(cmd, intern = TRUE, ignore.stderr = TRUE)
+    },
+    warning = function(e) {
+      # In the special case where we failed while updating, (in which case 
+      # the 'gist' utility exits with a nonzero status, creating a warning), 
+      # try again, but this time create a new gist instead of updating the 
+      # existing one.
+      if (identical(method, "Updated")) {
+        method <<- paste("Couldn't update ", gistUrl, "; created", 
+                         sep = "")
+        sourceUrl <<- system(paste(cmdStem, file.path(codePath, "*.R")), 
+                             intern = TRUE, ignore.stderr = TRUE)
+      }
+    })
   message("OK\n",
           "    ", method, " ", sourceUrl)
 }
