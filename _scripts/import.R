@@ -233,6 +233,7 @@ cat(yaml::as.yaml(list(layout = "app",
                        tags = desc[1,"Tags"],
                        app_url = appUrl,
                        source_url = sourceUrl,
+                       license = desc[1,"License"],
                        thumbnail = paste(appKey, '.png', sep = ""))),
     file = conn) 
 writeLines('---', con = conn)
