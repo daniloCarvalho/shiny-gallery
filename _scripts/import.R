@@ -53,6 +53,17 @@ for (i in 1:length(requiredVals)) {
 
 message("OK")
 
+# Ensure that every tag present in the DESCRIPTION file is also present in the
+# site taxonomy
+message("Validating tags... ", appendLF = FALSE)
+existingTags <- list.files("../tags")
+appTags <- unlist(strsplit(desc[1,"Tags"], "\\s+"))
+newTags <- setdiff(appTags, existingTags)
+if (length(newTags) > 0) {
+  stop("Found unrecognized tag(s): ", paste(newTags))
+}
+message("OK")
+
 # Create a filename-friendly version of the title. 
 # In: "Hello, World!"  -> Out: "hello-world"
 appKey <- tolower(desc[1,"Title"])
@@ -139,8 +150,6 @@ if (appKey %in% existingKeys) {
                        sep = "")
   message("    Creating new post '", appFileName, "'")
 }
-
-# TODO: Validate tags
 
 # Create an anonymous gist containing the source files using the ruby
 # gist utility
