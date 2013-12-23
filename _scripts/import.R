@@ -1,5 +1,14 @@
 #! /usr/bin/env Rscript
 
+# utility: download 'url' to 'filename' and return the first n lines as a 
+# character vector
+firstNLines <- function(url, filename, n) {
+  downloader::download(url, filename, quiet = TRUE)
+  conn <- file(filename, "rt")
+  on.exit(close(conn))
+  paste(readLines(conn, n))
+}
+
 # read appUrl argument
 args <- commandArgs(TRUE)
 if (length(args) < 2)
@@ -56,10 +65,10 @@ appKey <- gsub("^-|-$", "", appKey)
 
 # Hit the app URL to make sure it returns something that looks vaguely 
 # like a Shiny app. 
-# TODO: Use downloader package instead
 message("Testing app URL... ", appendLF = FALSE)
-conn <- url(appUrl, open="r")
-contents <- paste(readLines(conn, 25))
+tempAppUrlFile <- tempfile()
+on.exit(unlink(tempAppUrlFile), add = TRUE)
+contents <- firstNLines(appUrl, tempAppUrlFile, 25)
 if (length(grep("shiny.js", contents)) == 0) {
   stop(appUrl, " doesn't appear to be a Shiny application.")
 }
@@ -140,7 +149,16 @@ if (appKey %in% existingKeys) {
 
 if (length(args) > 2) {
   sourceUrl <- args[3]
-  # TODO: Validate that source URL is reachable
+  message("Testing source URL... ", appendLF = FALSE)
+  tempSourceUrlFile <- tempfile()
+  on.exit(unlink(tempSourceUrlFile), add = TRUE)
+  contents <- firstNLines(sourceUrl, tempSourceUrlFile, 25) 
+  # Don't try to validate that this is a real document, just make sure it
+  # returned some nontrivial data
+  if (length(contents) < 1) {
+    stop(sourceUrl, " looks empty")
+  }
+  message("OK")
 } else {
   message("Uploading code... ", appendLF = FALSE)
   sourceUrl <- system(paste('gist -d "', desc[1,"Title"], '" ', 
