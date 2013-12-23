@@ -17,6 +17,8 @@ yamlFromMd <- function(filename) {
   on.exit(close(conn))
   lines <- readLines(conn, warn = FALSE)
   sectionEndpoints <- which(lines == '---') 
+  if (length(sectionEndpoints) < 2) 
+    return(data.frame())
   yaml::yaml.load(paste(lines[sectionEndpoints[1] + 1:sectionEndpoints[2] - 2], 
                         collapse = "\n"))
 }
@@ -188,34 +190,34 @@ if (length(args) > 2) {
     # Updating an existing entry--check to see if this is a github gist URL;
     # if it is, we want to update it
     appDetails <- yamlFromMd(appFilePath)
-    gistUrl <- regmatches(appDetails$source_url, 
-                          regexpr("gist.github.com/\\d+", appDetails$source_url))
-    if (length(gistUrl) > 0) {
-      cmd <- paste(cmd, "-u", regmatches(gistUrl, regexpr("\\d+", gistUrl)))
-      method <- "Updated"
-    } 
-  } 
+    if (length(appDetails) > 0) {
+      gistUrl <- regmatches(appDetails$source_url, 
+                            regexpr("gist.github.com/\\d+", appDetails$source_url))
+      if (length(gistUrl) > 0) {
+        cmd <- paste(cmd, "-u", regmatches(gistUrl, regexpr("\\d+", gistUrl)))
+        method <- "Updated"
+      }
+    }
+  }
   cmd <- paste(cmd, file.path(codePath, "*.R"))
   sourceUrl <- system(cmd, intern = TRUE)
   message("OK\n",
           "    ", method, " ", sourceUrl)
 }
 
-# Write the post .md file based on the contents of DESCRIPTION. Note that
-# if this is an update of an existing application we should be sure to 
-# overwrite that .md rather than create a new one.
+# Write the post .md file based on the contents of DESCRIPTION. 
 
 conn <- file(appFilePath, open = "wt")
-writeLines(c('---', 
-             'layout: app', 
-             paste('title: "', desc[1,"Title"], '"', sep = ""),
-             paste('date: ', format(Sys.time(), "%Y-%0m-%0d %H:%M:%S"), sep = ""),
-             paste('tags:', desc[1,"Tags"]),
-             paste('app_url:', appUrl), 
-             paste('source_url:', sourceUrl), 
-             paste('thumbnail: ',appKey, '.png', sep = ""), 
-             '---'), 
-           con = conn)
+writeLines('---', con = conn)
+cat(yaml::as.yaml(list(layout = "app",
+                       title = desc[1,"Title"],
+                       date = format(Sys.time(), "%Y-%0m-%0d %H:%M:%S"),
+                       tags = desc[1,"Tags"],
+                       app_url = appUrl,
+                       source_url = sourceUrl,
+                       thumbnail = paste(appKey, '.png', sep = ""))),
+    file = conn) 
+writeLines('---', con = conn)
 close(conn)
 
 message("Import successfully completed.")
