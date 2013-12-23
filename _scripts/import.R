@@ -9,6 +9,18 @@ firstNLines <- function(url, filename, n) {
   paste(readLines(conn, n))
 }
 
+# utility: return a data frame containing the contents of the YAML from the 
+# given .md file (the YAML is presumed to be in a section beginning and ending
+# with ---)
+yamlFromMd <- function(filename) {
+  conn <- file(filename, "rt")
+  on.exit(close(conn))
+  lines <- readLines(conn, warn = FALSE)
+  sectionEndpoints <- which(lines == '---') 
+  yaml::yaml.load(paste(lines[sectionEndpoints[1] + 1:sectionEndpoints[2] - 2], 
+                        collapse = "\n"))
+}
+
 # read appUrl argument
 args <- commandArgs(TRUE)
 if (length(args) < 2)
@@ -150,13 +162,13 @@ if (appKey %in% existingKeys) {
                        sep = "")
   message("    Creating new post '", appFileName, "'")
 }
+appFilePath <- file.path("..", "_posts", appFileName)
 
 # Create an anonymous gist containing the source files using the ruby
 # gist utility
 
-# TODO: If using an existing post, update the existing gist
-
 if (length(args) > 2) {
+  # Manually specified source URL: use as-is, just be sure it's a legit URL
   sourceUrl <- args[3]
   message("Testing source URL... ", appendLF = FALSE)
   tempSourceUrlFile <- tempfile()
@@ -170,18 +182,30 @@ if (length(args) > 2) {
   message("OK")
 } else {
   message("Uploading code... ", appendLF = FALSE)
-  sourceUrl <- system(paste('gist -d "', desc[1,"Title"], '" ', 
-                          file.path(codePath, "*.R"), sep = ""),
-                      intern = TRUE)
+  cmd <- paste('gist -d "', desc[1,"Title"], '"', sep = "")
+  method <- "Created"
+  if (file.exists(appFilePath)) {
+    # Updating an existing entry--check to see if this is a github gist URL;
+    # if it is, we want to update it
+    appDetails <- yamlFromMd(appFilePath)
+    gistUrl <- regmatches(appDetails$source_url, 
+                          regexpr("gist.github.com/\\d+", appDetails$source_url))
+    if (length(gistUrl) > 0) {
+      cmd <- paste(cmd, "-u", regmatches(gistUrl, regexpr("\\d+", gistUrl)))
+      method <- "Updated"
+    } 
+  } 
+  cmd <- paste(cmd, file.path(codePath, "*.R"))
+  sourceUrl <- system(cmd, intern = TRUE)
   message("OK\n",
-          "    Created ", sourceUrl)
+          "    ", method, " ", sourceUrl)
 }
 
 # Write the post .md file based on the contents of DESCRIPTION. Note that
 # if this is an update of an existing application we should be sure to 
 # overwrite that .md rather than create a new one.
 
-conn <- file(file.path("..", "_posts", appFileName), open = "wt")
+conn <- file(appFilePath, open = "wt")
 writeLines(c('---', 
              'layout: app', 
              paste('title: "', desc[1,"Title"], '"', sep = ""),

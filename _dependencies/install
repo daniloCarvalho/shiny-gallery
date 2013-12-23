@@ -59,7 +59,7 @@ gem install jekyll
 gem install gist
 
 # install R packages
-R --silent -e "install.packages(c('downloader'), repos='http://cran.rstudio.com')"
+R --silent -e "install.packages(c('downloader', 'yaml'), repos='http://cran.rstudio.com')"
 
 
 
