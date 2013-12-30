@@ -99,22 +99,14 @@ if (length(grep("shiny.js", contents)) == 0) {
 }
 message("OK")
 
-# Download the application's source files (ui.R, server.R, and global.R as 
-# well as any files included in the Sources field of the DESCRIPTION).
-# Verify that their line widths are <= 65. 
+# Check the formatting of each of the .R files in the application
 message("Checking code formatting: ")
-files <- c("ui.R", "server.R", "global.R")
-if ("Sources" %in% colnames(desc)) {
-  files <- c(files, unlist(strsplit(desc[1,"Sources"], "\\s*,\\s*")))
-}
-files <- file.path(codePath, files)
-files <- files[file.exists(files)]
-
+files <- file.path(codePath, list.files(path = codePath, pattern = "\\.R$"))
 for (file in files) {
+  message("    ", file, "... ", appendLF = FALSE)
   # Treat tabs as two spaces for indent
   lines <- gsub("\t", "  ", readLines(file))
   lineNum <- 0
-  message("    ", file, "... ", appendLF = FALSE)
   for (line in lines) {
     lineNum <- lineNum + 1
     if (nchar(line) > 65) {
@@ -181,7 +173,7 @@ if (length(args) > 2) {
   message("OK")
 } else {
   message("Uploading code... ", appendLF = FALSE)
-  cmdStem <- paste('gist -d "', desc[1,"Title"], '"', sep = "")
+  cmdStem <- paste('gist -d "', desc[1,"Title"], '\nLicense: MIT"', sep = "")
   sourceUrl <- ""
   cmd <- cmdStem
   method <- "Created"
