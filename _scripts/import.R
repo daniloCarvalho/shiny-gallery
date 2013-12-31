@@ -41,10 +41,21 @@ yamlFromMd <- function(filename) {
                         collapse = "\n"))
 }
 
+# figure out where we're being run from
+allArgs <- commandArgs(FALSE)
+scriptsDir <- dirname(sub("--file=", "", allArgs[grep("--file=", allArgs)]))
+galleryDir <- dirname(scriptsDir)
+
+# check run location (look for ruby gist gem)
+if (nchar(Sys.which("gist")) == 0) {
+  stop("Can't find ruby 'gist' utility. Try running again from inside '", 
+       galleryDir, "', and make sure all dependencies are installed.")
+}
+
 # read appUrl argument
 args <- commandArgs(TRUE)
 if (length(args) < 2)
-  stop("Usage: ./import.R <code-path> <application-url> [<code-url>]\n", 
+  stop("Usage: import.R <code-path> <application-url> [<code-url>]\n", 
        "   code-path - path to application on disk (local)\n", 
        "   application-url - URL to deployed application (http or https) \n",
        "   code-url - optional; URL to hosted code. If missing, a gist will be created.")
@@ -88,15 +99,15 @@ message("OK")
 # Ensure that every tag present in the DESCRIPTION file is also present in the
 # site taxonomy
 message("Validating tags... ", appendLF = FALSE)
-existingTags <- list.files("../tags")
+existingTags <- list.files(file.path(galleryDir, "tags"))
 appTags <- unlist(strsplit(desc[1,"Tags"], "\\s+"))
 newTags <- setdiff(appTags, existingTags)
 if (length(newTags) > 0) {
   message("")  
   for (tag in newTags) {
     message('    Creating tag "', tag, '"... ', appendLF = FALSE)
-    dir.create(file.path("../tags", tag))
-    conn <- file(file.path("../tags", tag, "index.html"), open = "wt")  
+    dir.create(file.path(galleryDir, "tags", tag))
+    conn <- file(file.path(galleryDir, "tags", tag, "index.html"), open = "wt")  
     writeLines(c("---", 
                  "layout: content", 
                  paste("title:", stringFromTag(tag)), 
@@ -148,7 +159,7 @@ for (file in files) {
 # snapshot with phantom.js if it doesn't; either way, save the thumbnail to
 # images/thumbnails
 thumbnailSrc <- file.path(codePath, "thumbnail.png")
-thumbnailDest <- file.path("..", "images", "thumbnails", 
+thumbnailDest <- file.path(galleryDir, "images", "thumbnails", 
                            paste(appKey, ".png", sep=""))
 
 if (file.exists(thumbnailSrc)) {
@@ -157,7 +168,10 @@ if (file.exists(thumbnailSrc)) {
   message("OK")
 } else {
   message("Taking a screenshot for a thumbnail (takes 20 seconds)... ", appendLF = FALSE)
-  result <- system(paste("../_dependencies/phantomjs-1.9.2 screenshot.js ", 
+  result <- system(paste(file.path(galleryDir, "_dependencies", "phantomjs-1.9.2"),
+                         " ", 
+                         file.path(scriptsDir, "screenshot.js"),
+                         " ", 
                          appUrl, "?showcase=0 ", thumbnailDest, sep = ""), 
                    intern = TRUE, ignore.stderr = TRUE, ignore.stdout = TRUE) 
   if (!file.exists(thumbnailDest)) {
@@ -168,7 +182,7 @@ if (file.exists(thumbnailSrc)) {
 
 message("Checking for existing gallery entry... ", appendLF = FALSE)
 # Check to see if the app key already exists
-existingFiles <- list.files("../_posts")
+existingFiles <- list.files(file.path(galleryDir, "_posts"))
 
 # Create a list of keys from files (YYYY-MM-DD-key-name.md => key-name)
 existingKeys <- substring(existingFiles, 12, 
@@ -183,7 +197,7 @@ if (appKey %in% existingKeys) {
                        sep = "")
   message("    Creating new post '", appFileName, "'")
 }
-appFilePath <- file.path("..", "_posts", appFileName)
+appFilePath <- file.path(galleryDir, "_posts", appFileName)
 
 if (length(args) > 2) {
   # Manually specified source URL: use as-is, just be sure it's a legit URL
