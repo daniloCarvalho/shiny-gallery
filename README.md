@@ -58,7 +58,7 @@ Once you've installed RVM you should execute the following from the root directo
 $ _dependencies/install
 ```
 
-This script installs the Ruby bundles [jekyll](http://jekyllrb.com/) and [gist](http://defunkt.io/gist/), the R [downloader](http://cran.rstudio.com/web/packages/downloader/index.html) package, as well as the [phantom.js](http://phantomjs.org/) utility (which is used for capturing thumbnails of Shiny applications).
+This script installs the Ruby bundles [jekyll](http://jekyllrb.com/) and [gist](http://defunkt.io/gist/), the R [downloader](http://cran.rstudio.com/web/packages/downloader/index.html) and [yaml](http://cran.rstudio.com/web/packages/yaml/index.html) packages, as well as the [phantom.js](http://phantomjs.org/) utility (which is used for capturing thumbnails of Shiny applications).
 
 It's recommended that you run `gist --login` after installing dependencies, so that the import script can automatically create gists for you. 
 
