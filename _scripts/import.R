@@ -1,5 +1,23 @@
 #! /usr/bin/env Rscript
 
+# Given a string, return a tag-safe equivalent. 
+# In: "Hello, World!"  -> Out: "hello-world"
+tagFromString <- function(str) {
+  tag <- gsub("\\W", "-", str)
+  tag <- gsub("-+", "-", tag)
+  tag <- gsub("^-|-$", "", tag)
+  return(tag)
+}
+
+# Given a tag, return a friendly string equivalent
+# In: "application-layout"  -> Out: "Application Layout"
+stringFromTag <- function(tag) {
+  str <- gsub("-", " ", tag)
+  str <- gsub("\\s+", " ", str)
+  str <- gsub("(^|\\s)(.)", "\\1\\U\\2\\E", str, perl = TRUE)
+  return(str)
+}
+
 # utility: download 'url' to 'filename' and return the first n lines as a 
 # character vector
 firstNLines <- function(url, filename, n) {
@@ -74,19 +92,28 @@ existingTags <- list.files("../tags")
 appTags <- unlist(strsplit(desc[1,"Tags"], "\\s+"))
 newTags <- setdiff(appTags, existingTags)
 if (length(newTags) > 0) {
-  stop("Found unrecognized tag(s): ", paste(newTags))
+  message("")  
+  for (tag in newTags) {
+    message('    Creating tag "', tag, '"... ', appendLF = FALSE)
+    dir.create(file.path("../tags", tag))
+    conn <- file(file.path("../tags", tag, "index.html"), open = "wt")  
+    writeLines(c("---", 
+                 "layout: content", 
+                 paste("title:", stringFromTag(tag)), 
+                 "---", 
+                 "",
+                 paste("{% assign app_list = site.tags['", tag, "'] %}", 
+                       sep = ""),
+                 "{% include app_list.html %}"),
+               con = conn)
+    close(conn)
+    message("OK")
+  }
+} else {
+  message("OK")
 }
-message("OK")
 
-# Create a filename-friendly version of the title. 
-# In: "Hello, World!"  -> Out: "hello-world"
-appKey <- tolower(desc[1,"Title"])
-# Convert non-alphanumeric (word) characters to dashes
-appKey <- gsub("\\W", "-", appKey)
-# Collapse sequences of dashes to a single dash
-appKey <- gsub("-+", "-", appKey)
-# Don't begin or end with a dash
-appKey <- gsub("^-|-$", "", appKey)
+appKey <- tagFromString(tolower(desc[1,"Title"]))
 
 # Hit the app URL to make sure it returns something that looks vaguely 
 # like a Shiny app. 
