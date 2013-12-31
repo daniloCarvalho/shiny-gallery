@@ -9,11 +9,11 @@ This repository contains the source code for the Gallery website. This code as w
 
 Contributions to the Gallery are welcome and encouraged! You can submit a contribution in one of two ways:
  
-- Post to the Gallery [issue tracker](https://github.com/rstudio/shiny-gallery/issues/new). The issue just needs to include a link to where the application is hosted on the web (the RStudio hosting service [ShinyApps](http://www.shinyapps.io/signup.html) is a good choice for this).
+1. Post to the Gallery [issue tracker](https://github.com/rstudio/shiny-gallery/issues/new). The issue needs to include a link to where the application is hosted on the web (the RStudio hosting service [ShinyApps](http://www.shinyapps.io/signup.html) is a good choice for this) as well as a link to the application's source code (e.g. a [gist](http://defunkt.io/gist/) containing the source code).
 
-- Fork and clone the Gallery repository, import your application (see below for details), then send us a pull request.
+2. Fork and clone the Gallery repository and send us a pull request with your contribution (more details on doing this below).
 
-In either case, there are a few guidelines that contributions should meet:
+Note that if you are not experienced with creating pull requests already it might be simpler to start by posting contributions as issues. In either case, there are a few guidelines that contributions should meet:
 
 1. They should clearly demonstrate one or two concepts or techniques with a minimum of additional scaffolding code.
 
@@ -44,11 +44,32 @@ devtools::install("rstudio/shiny", ref = "feature/showcase-mode")
 Once a `DESCRIPTION` file similar to the above is in place, your app will start in showcase mode by default. You can force it to run normally by appending `?showcase=0` to the URL.
 
 
-### Importing an Application ###
+### Adding an Appliation to the Gallery ###
 
 If you want to submit a contribution as a pull request rather than an issue, you'll need to fork and clone this repository and then import your application using the Gallery import utility. This section provides detailed on instructions on how to do this.
 
-#### Installing Dependencies ####
+#### Fork and Clone the Repository ####
+
+If you want to submit an application to the Gallery as a pull request you should start by forking and cloning the repository, then creating a new branch for your submission. To fork the repository make sure you are logged into Github and then visit this link:
+
+```
+https://github.com/rstudio/shiny-gallery/fork
+```
+
+Once you've created your fork, clone it to your local development machine and associate your clone with the `shiny-gallery` upstream repository . For example:
+
+```bash
+git clone git@github.com:<username>/shiny-gallery
+cd shiny-gallery
+git remote add upstream https://github.com/rstudio/shiny-gallery
+git fetch upstream
+```
+
+*NOTE*: Be sure to substitute your Github username for the `<username>` token in the above example.
+
+For more details on forking Github repositories see [this article](https://help.github.com/articles/fork-a-repo) on the Github website.
+
+#### Install Dependencies ####
 
 To run the Shiny Gallery locally you need to be on Linux or Mac OS X. You also need to install some dependencies. These dependencies include several Ruby libraries. To isolate these libraries from others on your system it's strongly recommended that you first install [RVM](https://rvm.io/) (Ruby Version Manager).
 
@@ -62,13 +83,37 @@ This script installs the Ruby bundles [jekyll](http://jekyllrb.com/) and [gist](
 
 It's recommended that you run `gist --login` after installing dependencies, so that the import script can automatically create gists for you. 
 
-#### Performing the Import ####
+#### Create the Application ####
+
+To start work on a new Gallery application you should create a Git branch for the application (this branch will eventually be submitted as a pull request). For example, to create a branch for an application named `animiated-slider`:
+
+```bash
+git checkout -b app/animated-slider
+git push -u origin app/animated-slider
+```
+
+Source code for Gallery applications can be stored anywhere, but it's most convenient to store it within the Gallery Github repo itself. This is done within the `src/apps` directory. For example, to create the directory for the `animated-slider` application:
+
+```bash
+mkdir src/apps/animated-slider
+```
+
+You can now work on your application within the `src/apps/animated-slider` directory until you are ready to submit it to the Gallery.
+
+#### Deploy the Application ####
+
+After your happy with the new example application you should deploy it to the web. The RStudio [ShinyApps](http://www.shinyapps.io/signup.html) service is a good way to do this. Once you've setup a ShinyApps account and installed the `shinyapps` R package, deploying the application from R is as simple as this:
+
+```R
+shinyapps::deployApp()
+```
+
+#### Perform the Import ####
 
 To import an application you run the `import.R` script from within the `_scripts` folder. It takes two parameters: the file path from which the code was deployed, and the full URL to the deployed application. For instance: 
 
 ```bash
-$ cd _scripts
-$ ./import.R ~/r/animated-slider http://gallery.shinyapps.io/animated-slider
+$ _scripts/import.R src/apps/animated-slider http://gallery.shinyapps.io/animated-slider
 ```
 
 The import script will examine the application's `DESCRIPTION` file, verify that it has the required entries, and generate a thumbnail of the application using phantom.js. Note that you can also provide your own thumbnail by including a file named `thumbnail.png` in the application's directory (thumbnail dimensions should be approximately 910x660 pixels).
@@ -84,7 +129,7 @@ _posts/2013-12-20-animiated-slider.md
 images/thumbnails/animiated-slider.png
 ```
 
-#### Source Code Gist ####
+##### Source Code Gist #####
 
 In addition to adding a link to your application to the Gallery, the import utility will also create a [gist](https://gist.github.com/) containing your application's source code. All `.R` files in the application's directory will be included.
 
@@ -92,7 +137,7 @@ The gist is created using the Ruby gist gem, which by default creates an anonymo
 
 Note that the import utility cannot update anonymous gists, so if you use anonymous gists, a new one will be created every time you update your application. 
 
-#### Previewing Your Changes ####
+#### Preview Your Changes ####
 
 After you've imported your application you'll want to run the Gallery locally to preview the changes. To do this you can execute the following from the root directory of the repository:
 
@@ -101,6 +146,17 @@ $ jekyll serve --watch
 ```
 
 This will run a local web server that can be accessed at `http://localhost:4000`. Note that the `--watch` parameter is included so that the website is automatically rebuilt when files changes, so if you re-run your import you need only refresh the browser as opposed to stopping and restarting the local web server.
+
+#### Send the Pull Request ####
+
+To send a pull request with your new application, you first push it to Github:
+
+```bash
+git checkout feature/animated-slider
+git push 
+```
+
+You then visit your fork of the `shiny-gallery` repository on the web and submit the pull request from there. We'll provide any required feedback on the pull request and then add it to the Gallery.
 
 #### Updating Existing Applications ####
 

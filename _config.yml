@@ -8,6 +8,8 @@ exclude:
   - import.R
   - README.md 
   - shiny-gallery.Rproj
+  - src
+
 
 
 
