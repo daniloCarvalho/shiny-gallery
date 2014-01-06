@@ -31,8 +31,7 @@ Author: RStudio, Inc.
 AuthorUrl: http://www.rstudio.com/
 License: MIT
 Tags: getting-started
-DefaultShowcaseMode: 1
-AllowShowcaseModeOverride: TRUE
+DisplayMode: Showcase
 ```
 
 The Gallery takes advantage of a new feature of Shiny called showcase mode which displays applications along with their source code. **IMPORTANT NOTE**: Showcase mode is currently available only on a development branch of Shiny. To install this version of Shiny:

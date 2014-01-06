@@ -72,8 +72,7 @@ if (!file.exists(descFile)) {
        descFile, ")")
 }
 desc <- read.dcf(descFile)
-requiredCols <- c("Title", "Author", "AuthorUrl", "License", 
-                  "DefaultShowcaseMode", "AllowShowcaseModeOverride", 
+requiredCols <- c("Title", "Author", "AuthorUrl", "License", "DisplayMode", 
                   "Type", "Tags")
 missingCols <- setdiff(requiredCols, colnames(desc))
 if (length(missingCols) > 0) {
@@ -82,9 +81,8 @@ if (length(missingCols) > 0) {
 }
 
 requiredVals <- list(
-  DefaultShowcaseMode = "1", 
   License = "MIT", 
-  AllowShowcaseModeOverride = "TRUE",
+  DisplayMode = "Showcase",
   Type = "ShinyShowcase")
 
 for (i in 1:length(requiredVals)) {
