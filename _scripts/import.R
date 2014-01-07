@@ -83,7 +83,7 @@ if (length(missingCols) > 0) {
 requiredVals <- list(
   License = "MIT", 
   DisplayMode = "Showcase",
-  Type = "ShinyShowcase")
+  Type = "Shiny")
 
 for (i in 1:length(requiredVals)) {
   if (desc[1,names(requiredVals)[i]] != requiredVals[i]) {

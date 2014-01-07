@@ -25,7 +25,7 @@ Here's an example `DESCRIPTION` file:
 
 ```yaml
 Version: 1.0
-Type: ShinyShowcase
+Type: Shiny
 Title: Hello Shiny!
 Author: RStudio, Inc.
 AuthorUrl: http://www.rstudio.com/
