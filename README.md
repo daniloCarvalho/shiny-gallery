@@ -1,4 +1,3 @@
-
 ### Shiny Gallery ###
 
 The Shiny Gallery contains a wide variety of example applications that demonstrate features and techniques useful to Shiny developers. You can access the gallery at [http://shinygallery.com](http://shinygallery). 
@@ -34,10 +33,10 @@ Tags: getting-started
 DisplayMode: Showcase
 ```
 
-The Gallery takes advantage of a new feature of Shiny called showcase mode which displays applications along with their source code. **IMPORTANT NOTE**: Showcase mode is currently available only on a development branch of Shiny. To install this version of Shiny:
+The Gallery takes advantage of a new feature of Shiny called showcase mode which displays applications along with their source code. **IMPORTANT NOTE**: Showcase mode is currently available only in the development version of Shiny. To install this version of Shiny:
 
 ```r
-devtools::install("rstudio/shiny", ref = "feature/showcase-mode")
+devtools::install("rstudio/shiny")
 ```
 
 Once a `DESCRIPTION` file similar to the above is in place, your app will start in showcase mode by default. You can force it to run normally by appending `?showcase=0` to the URL.
