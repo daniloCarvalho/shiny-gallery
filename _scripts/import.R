@@ -136,15 +136,12 @@ for (file in files) {
   message("    ", file, "... ", appendLF = FALSE)
   # Treat tabs as two spaces for indent
   lines <- gsub("\t", "  ", readLines(file))
-  lineNum <- 0
-  for (line in lines) {
-    lineNum <- lineNum + 1
-    if (nchar(line) > 65) {
-      stop(nchar(line), "-character line found in ", file, ":\n", lineNum, ":", line, 
-           "\n", "Lines longer than 65 characters may be wrapped in side-by-side view.")
-    }
-  }
-  message("OK")
+  chars <- nchar(lines)
+  if (any(i <- chars > 65)) {
+    stop("code line(s) too wide in ", file, ":\n\n",
+         paste(" ", which(i), ":", lines[i], collapse = "\n"),
+         "\n\n", "Lines longer than 65 characters may be wrapped in side-by-side view.")
+  } else message("OK")
 }
 
 # Check to see if the app's source contains a thumbnail.png, and take a
