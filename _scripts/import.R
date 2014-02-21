@@ -123,9 +123,7 @@ appKey <- tagFromString(tolower(desc[1,"Title"]))
 # Hit the app URL to make sure it returns something that looks vaguely
 # like a Shiny app.
 message("Testing app URL... ", appendLF = FALSE)
-tempAppUrlFile <- tempfile()
-on.exit(unlink(tempAppUrlFile), add = TRUE)
-contents <- firstNLines(appUrl, tempAppUrlFile, 25)
+contents <- firstNLines(appUrl, tempfile(), 25)
 if (length(grep("shiny.js", contents)) == 0) {
   stop(appUrl, " doesn't appear to be a Shiny application.")
 }
@@ -197,9 +195,7 @@ if (length(args) > 2) {
   # Manually specified source URL: use as-is, just be sure it's a legit URL
   sourceUrl <- args[3]
   message("Testing source URL... ", appendLF = FALSE)
-  tempSourceUrlFile <- tempfile()
-  on.exit(unlink(tempSourceUrlFile), add = TRUE)
-  contents <- firstNLines(sourceUrl, tempSourceUrlFile, 25) 
+  contents <- firstNLines(sourceUrl, tempfile(), 25)
   # Don't try to validate that this is a real document, just make sure it
   # returned some nontrivial data
   if (length(contents) < 1) {
