@@ -22,18 +22,14 @@ stringFromTag <- function(tag) {
 # character vector
 firstNLines <- function(url, filename, n) {
   downloader::download(url, filename, quiet = TRUE)
-  conn <- file(filename, "rt")
-  on.exit(close(conn))
-  paste(readLines(conn, n))
+  paste(readLines(filename, n))
 }
 
 # utility: return a data frame containing the contents of the YAML from the
 # given .md file (the YAML is presumed to be in a section beginning and ending
 # with ---)
 yamlFromMd <- function(filename) {
-  conn <- file(filename, "rt")
-  on.exit(close(conn))
-  lines <- readLines(conn, warn = FALSE)
+  lines <- readLines(filename, warn = FALSE)
   sectionEndpoints <- which(lines == '---')
   if (length(sectionEndpoints) < 2)
     return(data.frame())
