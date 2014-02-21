@@ -18,9 +18,10 @@ stringFromTag <- function(tag) {
   return(str)
 }
 
-# utility: download 'url' to 'filename' and return the first n lines as a
+# utility: download 'url' to tempfile() and return the first n lines as a
 # character vector
-firstNLines <- function(url, filename, n) {
+firstNLines <- function(url, n) {
+  filename <- tempfile()
   downloader::download(url, filename, quiet = TRUE)
   paste(readLines(filename, n))
 }
@@ -123,7 +124,7 @@ appKey <- tagFromString(tolower(desc[1,"Title"]))
 # Hit the app URL to make sure it returns something that looks vaguely
 # like a Shiny app.
 message("Testing app URL... ", appendLF = FALSE)
-contents <- firstNLines(appUrl, tempfile(), 25)
+contents <- firstNLines(appUrl, 25)
 if (length(grep("shiny.js", contents)) == 0) {
   stop(appUrl, " doesn't appear to be a Shiny application.")
 }
@@ -192,7 +193,7 @@ if (length(args) > 2) {
   # Manually specified source URL: use as-is, just be sure it's a legit URL
   sourceUrl <- args[3]
   message("Testing source URL... ", appendLF = FALSE)
-  contents <- firstNLines(sourceUrl, tempfile(), 25)
+  contents <- firstNLines(sourceUrl, 25)
   # Don't try to validate that this is a real document, just make sure it
   # returned some nontrivial data
   if (length(contents) < 1) {
