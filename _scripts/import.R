@@ -139,7 +139,7 @@ for (file in files) {
   lines <- gsub("\t", "  ", readLines(file))
   chars <- nchar(lines)
   if (any(i <- chars > 65)) {
-    stop("code line(s) too wide in ", file, ":\n\n",
+    warning("code line(s) too wide in ", file, ":\n\n",
          paste(" ", which(i), ":", lines[i], collapse = "\n"),
          "\n\n", "Lines longer than 65 characters may be wrapped in side-by-side view.")
   } else message("OK")
