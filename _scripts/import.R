@@ -131,7 +131,7 @@ message("OK")
 
 # Check the formatting of each of the .R files in the application
 message("Checking code formatting: ")
-files <- file.path(codePath, list.files(path = codePath, pattern = "\\.R$"))
+files <- file.path(codePath, list.files(path = codePath, pattern = "\\.[rR]$"))
 for (file in files) {
   message("    ", file, "... ", appendLF = FALSE)
   # Treat tabs as two spaces for indent
