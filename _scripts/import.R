@@ -42,14 +42,14 @@ allArgs <- commandArgs(FALSE)
 scriptsDir <- dirname(sub("--file=", "", allArgs[grep("--file=", allArgs)]))
 galleryDir <- dirname(scriptsDir)
 
+# read appUrl argument
+args <- commandArgs(TRUE)
 # check run location (look for ruby gist gem)
-if (nchar(Sys.which("gist")) == 0) {
+if (length(args) < 3 && nchar(Sys.which("gist")) == 0) {
   stop("Can't find ruby 'gist' utility. Try running again from inside '",
        galleryDir, "', and make sure all dependencies are installed.")
 }
 
-# read appUrl argument
-args <- commandArgs(TRUE)
 if (length(args) < 2)
   stop("Usage: import.R <code-path> <application-url> [<code-url>]\n",
        "   code-path - path to application on disk (local)\n",
